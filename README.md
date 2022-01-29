@@ -6,14 +6,6 @@
 
 ### STATISTICAL SIMULATION OF WAR CARD GAME
 
-#### Everything written in C++, with the following include files:
-- iostream.h
-- cmath.h
-- cstdlib.h
-- includes.h
-- ctime.h
-- queue.h
-
 The game of War is the longest game played with a 52-card deck.  Played between two players, the object is to win all the cards in a series 
 of tricks.  The game practically plays itself since the players have no control over the cards in their decks.  
 
@@ -28,7 +20,7 @@ players, each with 26 playing cards and play through the game of War, recording 
 War to play in succession.  After all the games are played, however long it takes, all the times playing are recorded and then averaged.
 The purpose is to find the average time playing War.  After the simulation is over, the total time, average time the games are played, and
 the number of wins per player are output.  The user may choose to start a new simulation then, and the whole process is repeated.  It can
-not be stressed enough to have patience; a simulation may take a long time to complete, depending on the user's machine.  If the user sees nothing but the prompt after inputting the number of games, they must understand the program is running at maximum speed.  Especially with
+not be stressed enough to have patience; a simulation may take a long time to complete, depending on the user's machine.  If the user sees nothing but "Playing xx games..." after inputting the number of games, they must understand the program is running at maximum speed.  Especially with
 more than one game input, the simulator will need to take its time towards completion.  If this program is run for scientific or academic
 purposes, the user needs to copy down the output, as it is not recorded in an external file.  
 
