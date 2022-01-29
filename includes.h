@@ -392,7 +392,8 @@ class Game {
             setTotalNumGames(getNumGames());
 
             // Output results
-            cout << "Total time played: " << timePlayed << " sec." << endl
+            cout << "\nSimulation finished!  Results:" << endl
+                    << "Total time played: " << timePlayed << " sec." << endl
                     << "Average time played: " << calculateAvg() << " sec."
                     << endl << "Games played: " << getTotalNumGames() << "."
                     << endl << "Player One wins: " << players[0].getWins()
