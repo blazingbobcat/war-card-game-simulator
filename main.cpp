@@ -79,6 +79,9 @@ int main() {
                 game.resetGameCount();
                 game.shuffleDeck();
 
+                // Tell user we're playing the games
+                cout << "Playing " << game.getNumGames() << " games..." << endl;
+                
                 while (game.getGameCount() < game.getNumGames()) {
 
                     game.playGame(); // Game object runs loop
