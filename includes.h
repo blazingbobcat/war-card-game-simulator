@@ -58,11 +58,10 @@ class Player {
 
         ~Player() {
 
-            cout << "Player destroyed." << endl;
 
         }
 
-        void setNumber(int num) {
+        void setNumber( int num ) {
 
             number = num;
 
@@ -81,7 +80,7 @@ class Player {
             play.value = 0;
             play.suit = 0;
 
-            if ( getDeckCount() > 0 ) {
+            if ( !deck.empty() ) {
                 
                 play.value = deck.front().value;
                 play.suit = deck.front().suit;
@@ -118,16 +117,10 @@ class Player {
 
         }
 
-        void addCard(Card card) {
+        void addCard( Card card ) {
 
-            deck.push(card);            
+            deck.push( card );            
             deckCount++;
-
-        }
-
-        Card showFront() {
-
-            return deck.front();
 
         }
 
@@ -153,6 +146,10 @@ class Game {
         float timePlayedAvg;
         int cardCount;
         int pileCount;
+        long drawGames;
+        int i;
+        int trap;
+        float totalTimePlayed;
 
     public:
         Game() {
@@ -160,14 +157,18 @@ class Game {
             numGames = 0;
             gameCount = 0;
             players[1].setNumber(1);
-            for (int i = 0; i < 4; i++)
-                    for (int j = 0; j < 13; j++)
+            for ( int i = 0; i < 4; i++ )
+                    for ( int j = 0; j < 13; j++ )
                             availableCards[i][j] = true;
             timePlayedAvg = 0.0f;
             timePlayed = 0.0f;
             cardCount = 0;
             pileCount = 0;
             totalNumGames = 0;
+            drawGames = 0;
+            i = 0;
+            trap = 0;
+            totalTimePlayed = 0;
 
         }
 
@@ -189,13 +190,13 @@ class Game {
 
         }
 
-        void setNumGames(long num) {
+        void setNumGames( long num ) {
 
             numGames = num;
 
         }
 
-        void setTotalNumGames(long num) {
+        void setTotalNumGames( long num ) {
 
             totalNumGames += num;
 
@@ -213,6 +214,12 @@ class Game {
             
         }
 
+        long getDrawCount() {
+
+            return drawGames;
+
+        }
+
         void shuffleDeck() {
 
             Card newCard;
@@ -220,8 +227,8 @@ class Game {
             // set the seed
             srand( (unsigned)time( NULL ) );
 
-            for (int i = 0; i < 4; i++)
-                    for (int j = 0; j < 13; j++)
+            for ( int i = 0; i < 4; i++ )
+                    for ( int j = 0; j < 13; j++ )
                             availableCards[i][j] = true;
             
 
@@ -239,9 +246,9 @@ class Game {
                     if ( availableCards[newCard.suit][newCard.value] == true ) {
 
                         availableCards[newCard.suit][newCard.value] = false;
-                        deck.push(newCard);
+                        deck.push( newCard );
                         cardCount++;
-
+                        
                     } // end while
 
             } while ( cardCount < 52 );
@@ -249,15 +256,15 @@ class Game {
             // Give cards to Player objects. deckCount = 26 for both players
             do {
 
-                    players[0].addCard(deck.front()); 
+                    players[0].addCard( deck.front() ); 
                     deck.pop();             
 
-                    players[1].addCard(deck.front());
+                    players[1].addCard( deck.front() );
                     deck.pop();
                     
                     cardCount -= 2;
 
-            } while (cardCount > 0);
+            } while ( cardCount > 0 );
 
         }
 
@@ -272,99 +279,70 @@ class Game {
             playerTwoCard = players[1].playCard();
 
             // Put cards in pile
-            pile.push(playerOneCard);
-            pile.push(playerTwoCard);
+            pile.push( playerOneCard );
+            pile.push( playerTwoCard );
 
-            pileCount += 2;
+            pileCount += 2; // Increase count of cards in pile
 
-            if (pile.front().value == pile.back().value) {
+            if ( playerOneCard.value == playerTwoCard.value ) {
 
-                    do {
+                // Cards have same value
+                playerOneCard = players[0].playCard();
+                playerTwoCard = players[1].playCard();
+                pile.push( playerOneCard );
+                pile.push( playerTwoCard );
 
-                        // Cards have same value
-                        playerOneCard = players[0].playCard();
-                        playerTwoCard = players[1].playCard();
-                        pile.push(playerOneCard);
-                        pile.push(playerTwoCard);
-
-                        // Tell Player objects to show fronts of Deck queues
-                        p1Front = players[0].showFront();
-                        p2Front = players[1].showFront();
-
-                        pileCount += 2;
-
-                    } while (p1Front.value == p2Front.value);
+                pileCount += 2;
                     
-                    if (p1Front.value > p2Front.value) {
+            } else if ( playerOneCard.value > playerTwoCard.value ) {
 
-                            // Player One wins cards
-                            playerOneCard = players[0].playCard();
-                            playerTwoCard = players[1].playCard();
-                            pile.push(playerOneCard);
-                            pile.push(playerTwoCard);
+                for ( i = 0; i < pileCount; i++ ) {
 
-                            pileCount += 2;
-
-                            for (int p = 0; p < pileCount; p++) {
-
-                                    players[0].addCard(pile.front());
-                                    pile.pop();
-                                    // The temporary only lasts...
-
-                            } // end for
-                            
-                    } else if (p1Front.value < p2Front.value) {
-
-                            // sometimes, but not always =^>
-                            playerOneCard = players[0].playCard();
-                            playerTwoCard = players[1].playCard();
-                            pile.push(playerOneCard);
-                            pile.push(playerTwoCard);
-
-                            pileCount += 2;
-
-                            for (int p = 0; p < pileCount; p++) {
-
-                                    players[1].addCard(pile.front());
-                                    pile.pop();
-
-                            } // end for
-
-                    } // end if 2
-
-            } else if (pile.front().value < pile.back().value) {
-
-                    players[1].addCard(pile.front());
-
-                    players[1].addCard(pile.back());
-
+                    // Add cards to winning player's deck
+                    players[0].addCard( pile.front() );
                     pile.pop();
-                    pile.pop();
-                    
-            } else if (pile.front().value > pile.back().value) {
 
-                    players[0].addCard(pile.front());
-                    
-                    players[0].addCard(pile.back());
+                } // end for
 
+                pileCount = 0;  // Reset Pile object
+
+            } else if ( playerOneCard.value < playerTwoCard.value ) {
+                
+                for ( i = 0; i < pileCount; i++ ) {
+
+                    // Add cards to winning player's deck
+                    players[1].addCard( pile.front() );
                     pile.pop();
-                    pile.pop();
-                    
+
+                } // end for
+
+                pileCount = 0;  // Reset Pile object
+
             } // end if 1
 
-            pileCount = 0;  // Reset Pile object
             timePlayed += static_cast< float >( clock() )
-            / static_cast< float >( CLOCKS_PER_SEC ); // Always increase time
+                / static_cast< float >( CLOCKS_PER_SEC ); // Always increase time
+
+            // Look if both players end up with 26 cards in their decks
+            if ( players[0].getDeckCount() == 26 )
+                trap++; // The game is trapped!
 
             // Check if player won game
-            if (players[0].getDeckCount() == 52) {
+            if ( players[0].getDeckCount() == 52 ) {
 
                 players[0].addWin();
+                totalTimePlayed += timePlayed; // Add on time played
                 resetGame();
 
-            } else if (players[1].getDeckCount() == 52) {
+            } else if ( players[1].getDeckCount() == 52 ) {
 
                 players[1].addWin();
+                totalTimePlayed += timePlayed;
+                resetGame();
+
+            } else if ( pileCount == 52 || trap == 5 ) {
+
+                drawGames++; // Game impossible to win
                 resetGame();
 
             } // end if
@@ -375,13 +353,16 @@ class Game {
         
             shuffleDeck();
 
+            trap = 0; // Reset trap counter
+            timePlayed = 0; // Reset time played
+
             gameCount++;
 
         }
 
         float calculateAvg() {
 
-            timePlayedAvg = timePlayed / getTotalNumGames();
+            timePlayedAvg = totalTimePlayed / getTotalNumGames();
             return timePlayedAvg;
 
         }
@@ -389,22 +370,17 @@ class Game {
         void outputResults() {
 
             // Total up number of games
-            setTotalNumGames(getNumGames());
+            setTotalNumGames( getNumGames() );
 
             // Output results
             cout << "\nSimulation finished!  Results:" << endl
-                    << "Total time played: " << timePlayed << " sec." << endl
-                    << "Average time played: " << calculateAvg() << " sec."
-                    << endl << "Games played: " << getTotalNumGames() << "."
-                    << endl << "Player One wins: " << players[0].getWins()
-                    << "." << endl << "Player Two wins: " << players[1].getWins()
-                    << "." << endl << "\n";
-
-        }
-
-        Player getPlayer(int number) const {
-
-            return players[number];
+                << "Total time played: " << totalTimePlayed << " sec." << endl
+                << "Average time played: " << calculateAvg() << " sec."
+                << endl << "Games played: " << getTotalNumGames() << "."
+                << endl << "Player One wins: " << players[0].getWins()
+                << "." << endl << "Player Two wins: " << players[1].getWins()
+                << "." << endl << "Impossible to win: " << getDrawCount()
+                << "." << endl;
 
         }
 
