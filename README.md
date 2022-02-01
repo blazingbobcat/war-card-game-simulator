@@ -17,13 +17,18 @@ and one face up to compare values before a player wins the trick.  Play continue
 
 There is no way to tell for how long a game of War will last, though it could go on for hours.  This simulator will create two virtual
 players, each with 26 playing cards and play through the game of War, recording the time.  First, the user inputs the number of games of
-War to play in succession.  After all the games are played, however long it takes, all the times playing are recorded and then averaged.
+War to play in succession.  After all the games are played, however long it takes, all the times playing are summed and then averaged.
 The purpose is to find the average time playing War.  After the simulation is over, the total time, average time the games are played, and
 the number of wins per player are output.  The user may choose to start a new simulation then, and the whole process is repeated.  It can
-not be stressed enough to have patience; a simulation may take a long time to complete, depending on the user's machine.  If the user sees nothing but "Playing xx games..." after inputting the number of games, they must understand the program is running at maximum speed.  Especially with
-more than one game input, the simulator will need to take its time towards completion.  If this program is run for scientific or academic
+not be stressed enough to have patience; a simulation may take a long time to complete, depending on the user's machine.  If the user sees nothing but "Playing xx games..." after inputting the number of games, they must understand the program is running at maximum speed. 
+That said, some games of War are theoretically impossible to win, and the simulator takes this into account.  Impossible to win games
+will be tallied as well as games won by either player.
+
+If this program is run for scientific or academic
 purposes, the user needs to copy down the output, as it is not recorded in an external file.  
 
-Or, you could play the game with a friend multiple times yourself with a stopwatch, and record all the times. XD
-
 MIT License.  Feedback appreciated.
+
+#### Version 1.3 includes...
+- Major bug fixes
+- Improved efficiency running simulations
