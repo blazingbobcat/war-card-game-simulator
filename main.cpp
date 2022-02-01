@@ -40,12 +40,12 @@ using namespace std;
 
 int main() {
 
-    long prompt = 0;
+    long prompt;
     Game game;
 
     // Introduce users to program
     cout << "WAR CARD GAME SIMULATOR\n" << endl;
-    cout << "This program takes an input for number of games of war.  Here are the" << endl;
+    cout << "This program takes an input for number of games of War.  Here are the" << endl;
     cout << "rules:  Two players split a 52-deck of cards in half and have their" << endl;
     cout << "own cards face down in their hands.  Cards are drawn and placed face" << endl;
     cout << "up on the table.  The values of the cards are compared, and the player" << endl;
@@ -60,29 +60,29 @@ int main() {
     // Prompt user to run simulation
     do {
 
-        cout << "\nEnter number of games for simulation or -1 to quit: ";
+        cout << "\nEnter number of games for simulation or 0 to quit: ";
         try {
 
             cin >> prompt;
-            if (cin.fail())
+            if ( cin.fail() )
                 // User enters invalid input
                 throw prompt;
 
-            if (prompt == -1)
+            if ( prompt == 0 )
                 cout << "\nThank you for using my program!" << endl;
 
-            else if (prompt > 0) {
+            else if ( prompt > 0 ) {
 
-                game.setNumGames(prompt);
+                game.setNumGames( prompt );
 
                 // Always reset game first
                 game.resetGameCount();
-                game.shuffleDeck();
+                game.resetGame();
 
                 // Tell user we're playing the games
-                cout << "Playing " << game.getNumGames() << " games..." << endl;
+                cout << "Playing " << game.getNumGames() << " game(s)..." << endl;
                 
-                while (game.getGameCount() < game.getNumGames()) {
+                while ( game.getGameCount() <= game.getNumGames() ) {
 
                     game.playGame(); // Game object runs loop
 
@@ -92,20 +92,22 @@ int main() {
 
             } else {
 
-                cout << "\nPlease enter more than one game.\n" << endl;
+                cout << "\nPlease enter more than one game." << endl;
 
             }// end if
 
-        } catch (long) {
+        } catch ( long ) {
 
-            cout << "\nERROR:  Invalid input.\n" << endl;
+            cout << "\nERROR:  Invalid input." << endl;
 
             cin.clear(); // Reset input stream
-            cin.ignore(100, '\n');
+            cin.ignore( 100, '\n' );
+            
+            prompt = 1; // Reset prompt
 
         }; // end try-catch
 
-    } while (prompt != -1);
+    } while ( prompt != 0 );
     
     return 0;
 
