@@ -21,14 +21,13 @@ War to play in succession.  After all the games are played, however long it take
 The purpose is to find the average time playing War.  After the simulation is over, the total time, average time the games are played, and
 the number of wins per player are output.  The user may choose to start a new simulation then, and the whole process is repeated.  It can
 not be stressed enough to have patience; a simulation may take a long time to complete, depending on the user's machine.  If the user sees nothing but "Playing xx games..." after inputting the number of games, they must understand the program is running at maximum speed. 
-That said, some games of War are theoretically impossible to win, and the simulator takes this into account.  Impossible to win games
-will be tallied as well as games won by either player.
+That said, some games of War are theoretical draws, and the simulator takes this into account.  Impossible to win games
+will not be tallied.
 
 If this program is run for scientific or academic
 purposes, the user needs to copy down the output, as it is not recorded in an external file.  
 
 MIT License.  Feedback appreciated.
 
-#### Version 1.3 includes...
+#### Version 1.4 includes...
 - Major bug fixes
-- Improved efficiency running simulations
