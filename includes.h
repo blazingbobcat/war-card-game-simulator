@@ -343,6 +343,7 @@ class Game {
             } else if ( pileCount == 52 || trap == 5 ) {
 
                 drawGames++; // Game impossible to win
+                setNumGames(numGames--); // Game doesn't count
                 resetGame();
 
             } // end if
